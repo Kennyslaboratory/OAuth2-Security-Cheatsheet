@@ -26,7 +26,7 @@ OAuth2 is not a program, service, or coding library.  OAuth2 is simply a framewo
 
 | Token Types | Description |
 | --- | --- |
-| Bearer Tokens | An unsigned token that is used by OAuth2.  It's located in the Authorization Header of HTTP Requests and if also considered a predominate access token.  |
+| Bearer Tokens | An unsigned token that is used by OAuth2.  It's located in the Authorization Header of HTTP Requests and is also considered a predominate access token.  |
 | Access Tokens | A short-lived token that grants access to a protected resource.  Normally exchanged with an Authorization Code.  Access Tokens are also encrypted strings that contain user information. |
 | Refresh Tokens | A seperate token that is used to renew an expired Access Token. |
 | Identity Tokens | A Self-Contained, JSON Web Token used by OpenID Connect for account login purposes. |
