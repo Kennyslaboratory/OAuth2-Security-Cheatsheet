@@ -4,11 +4,13 @@ Security Cheatsheet for OAuth2
 # Overview
 OAuth2 is not a program, service, or coding library.  OAuth2 is simply a framework/standard that was created by the Internet Engineering Task Force to give websites *limited* access to their data/services to other third-party websites using a decenteralized Authorization Server.  
 
+## Key Servers
 | Services | Description |
 | --- | --- |
 | OAuth2 | Authorization framework that enables a third-party application to obtain limited, short-term access to an HTTP service. |
 | OpenID Connect | Works ontop of OAuth2, this adds an Identity Layer to the framework.  "Sign In with Google" |
 
+## Main Components
 | Components | Description |
 | --- | --- |
 | Resource Owner (User) | The subject that is attempting to access a protected resource.  You, me, or a API. |
@@ -17,6 +19,7 @@ OAuth2 is not a program, service, or coding library.  OAuth2 is simply a framewo
 | Auth Server (IdP) | The server that is used to authenticate the User.  This is where  |
 | Resource Server | Server hosting the protected resources. This is the API you want to access. |
 
+## Auth Flow Types
 | Flow Types | Description |
 | --- | --- |
 | Implicit Grant | *Less Secure.*  No Auth Code, instead the Client obtains the Access Token directly and no Auth Code is created or exchanged. |
@@ -24,6 +27,7 @@ OAuth2 is not a program, service, or coding library.  OAuth2 is simply a framewo
 | Resource Owner Password Credentials Grant | *Not Secure* Basically the Client enters in your Username and Password and signs into the server on your behalf. |
 | Client Credentials Grant | *Not Secure* The Client is given master credentials that it can use to obtain Access Tokens. |
 
+## Token Types
 | Token Types | Description |
 | --- | --- |
 | Bearer Tokens | An unsigned token that is used by OAuth2.  It's located in the Authorization Header of HTTP Requests and is also considered a predominate access token.  |
@@ -33,7 +37,8 @@ OAuth2 is not a program, service, or coding library.  OAuth2 is simply a framewo
 
 **Tip:** Think of Access Tokens like a session that is created once you authenticate to a website. As long as that session is valid, we can interact with that website without needing to login again. Once the session times out, we would need to login again with our username and password. Refresh tokens are like that password, as they allow a Client to create a new session.
 
-| Other Token Types | Description |
+## Misc. Token Types
+| Token Types | Description |
 | --- | --- |
 | Handle-Based Tokens | *Reference tokens* that are typically random strings used to retrieve the data associated with that token. Similar to passing a reference to a variable in a programming language. |
 | Self-Contained Tokens | *Contain all the data* associated with that token. This is similar to passing a variable by value in a programming language. This is typically expressed as a JWT. |
