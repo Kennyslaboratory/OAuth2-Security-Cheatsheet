@@ -4,8 +4,8 @@ Security Cheatsheet for OAuth2
 # Overview
 OAuth2 is not a program, service, or coding library.  OAuth2 is simply a framework/standard that was created by the Internet Engineering Task Force to give websites *limited* access to their data/services to other third-party websites using a decenteralized Authorization Server.  
 
-## Key Servers
-| Services | Description |
+## Key Frameworks
+| Frameworks | Description |
 | --- | --- |
 | OAuth2 | Authorization framework that enables a third-party application to obtain limited, short-term access to an HTTP service. |
 | OpenID Connect | Works ontop of OAuth2, this adds an Identity Layer to the framework.  "Sign In with Google" |
