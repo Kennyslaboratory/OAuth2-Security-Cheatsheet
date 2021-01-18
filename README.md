@@ -1,6 +1,3 @@
-# OAuth2-Security-Cheatsheet
-Security Cheatsheet for OAuth2
-
 # Overview
 OAuth2 is not a program, service, or coding library.  OAuth2 is simply a framework/standard that was created by the Internet Engineering Task Force to give websites *limited* access to their data/services to other third-party websites using a decenteralized Authorization Server.  
 
@@ -13,10 +10,10 @@ OAuth2 is not a program, service, or coding library.  OAuth2 is simply a framewo
 ## Main Components
 | Components | Description |
 | --- | --- |
-| Resource Owner (User) | The subject that is attempting to access a protected resource.  You, me, or a API. |
-| User Agent (Browser) | The local software that the User is interfacing with in order to communicate with the client. This can be a phone app or your web browser. |
-| Client (Web App) | This is the server application that runs the logic.  No data or protected resources are located here. |
-| Auth Server (IdP) | The server that is used to authenticate the User.  This is where  |
+| Resource Owner | The subject that is attempting to access a protected resource.  You, me, or a API. |
+| User Agent | The local software that the User is interfacing with in order to communicate with the client. This can be a phone app or your web browser. |
+| Client | This is the server application that runs the logic.  No data or protected resources are located here. |
+| Auth Server | The server that is used to authenticate the User.  This is where  |
 | Resource Server | Server hosting the protected resources. This is the API you want to access. |
 
 ## Auth Flow Types
@@ -48,5 +45,19 @@ OAuth2 is not a program, service, or coding library.  OAuth2 is simply a framewo
   * Access tokens can be either, handle-based or self-contained.
   * Identity tokens (OpenID/Connect) are self-contained. *(JWTs)*
   
-  
+## Client Types
+| Clients | Description |
+| --- | --- |
+| Public Client | A client that is located on the same device as the User-Agent.  This client should not be used to store client secrets because it can't be secured. This category includes mobile applications, single page applications, and desktop clients as an attacker is able to extract the secrets by downloading those applications. |
+| Confidential Client | A Web Application that is located on a server seperate to the User-Agent. |
+
+# Client Vulnerabilities
+| Attack | Description | Type |
+| --- | --- | --- |
+| [Pseudo-Auth CSRF Attack](https://www.shellvoide.com/hacks/cross-site-request-forgery-attack-on-oauth2-protocol/) | If OAuth2 is being used as a psudo-authentication protocol, then it is possible to obtain access to a user account via CSRF Attack. | Client |
+| Reverse-CSRF Attack | ... |
+| Stealing client_secret | ... |
+| Open Redirect | ... |
+
+
 
