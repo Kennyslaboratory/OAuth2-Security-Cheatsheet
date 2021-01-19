@@ -1,13 +1,13 @@
 # Overview
 OAuth2 is not a program, service, or coding library.  OAuth2 is simply a framework/standard that was created by the Internet Engineering Task Force to give websites *limited* access to their data/services to other third-party websites using a decenteralized Authorization Server.  
 
-## Key Frameworks
+### Key Frameworks
 | Frameworks | Description |
 | --- | --- |
 | [OAuth2](https://tools.ietf.org/html/rfc6749) | Authorization framework that enables a third-party application to obtain limited, short-term access to an HTTP service. |
 | [OpenID Connect](https://developer.okta.com/blog/2017/07/25/oidc-primer-part-1) | Works ontop of OAuth2, this adds an Identity Layer to the framework.  "Sign In with Google" |
 
-## Main Components
+### Main Components
 There's 
 | Components | Description |
 | --- | --- |
@@ -17,7 +17,7 @@ There's
 | Auth Server | The server that is used to authenticate the User.  Tokens are exchanged here for access to protected resources. |
 | Resource Server | Server hosting the protected resources. This is the API you want to access. |
 
-## Auth Flow Types
+### Auth Flow Types
 | Flow Types | Description |
 | --- | --- |
 | Implicit Grant | No Auth Code, instead the Client obtains the Access Token directly and no Auth Code is created or exchanged. |
@@ -25,7 +25,7 @@ There's
 | Resource Owner Password Credentials Grant | Basically the Client enters in your Username and Password and signs into the server on your behalf. |
 | Client Credentials Grant | The Client is given master credentials that it can use to obtain Access Tokens. |
 
-### GET Request Parameters
+#### GET Request Parameters
 | Parameter | Description |
 | --- | --- |
 | response_type | Specifies what type of Authorization Flow is being used. |
@@ -34,7 +34,7 @@ There's
 | scope _(optional)_ | Declare what resources/permission you want from the Identity Provider. |
 | state _(recommended)_ | If not using PKCE to prevent CSRF attack then the state parameter is necessary to protect user accounts fro hijacking via CSRF. |
 
-### POST Request Parameters
+#### POST Request Parameters
 | Parameter | Description |
 | --- | --- |
 | Host | authorization-endpoint.com |
@@ -42,7 +42,7 @@ There's
 | code | This is where the Auth Code is after logging into the Auth Server / Identity Provider. |
 
 
-## Token Types
+### Token Types
 | Token Types | Description |
 | --- | --- |
 | Bearer Tokens | An unsigned token that is used by OAuth2.  It's located in the Authorization Header of HTTP Requests and is also considered a predominate access token.  |
@@ -52,18 +52,18 @@ There's
 
 **Tip:** Think of Access Tokens like a session that is created once you authenticate to a website. As long as that session is valid, we can interact with that website without needing to login again. Once the session times out, we would need to login again with our username and password. Refresh tokens are like that password, as they allow a Client to create a new session.
 
-## Misc. Token Types
+### Misc. Token Types
 | Token Types | Description |
 | --- | --- |
 | Handle-Based Tokens | *Reference tokens* that are typically random strings used to retrieve the data associated with that token. Similar to passing a reference to a variable in a programming language. |
 | Self-Contained Tokens | *Contain all the data* associated with that token. This is similar to passing a variable by value in a programming language. This is typically expressed as a JWT. |
 
-### Note: 
+#### Note: 
   * Refresh tokens are handle-based.
   * Access tokens can be either, handle-based or self-contained.
   * Identity tokens (OpenID/Connect) are self-contained. *(JWTs)*
   
-## Client Types
+### Client Types
 | Clients | Description |
 | --- | --- |
 | Public Client | A client that is located on the same device as the User-Agent.  This client should not be used to store client secrets because it can't be secured. This category includes mobile applications, single page applications, and desktop clients as an attacker is able to extract the secrets by downloading those applications. |
@@ -82,10 +82,10 @@ There's
 As a general rule of thumb, if you are developing a standard Web Application or Native Mobile Application then you should be using the Authorization Code Grant.  The Implicit Grant was generally how we used to do things before CORS support was widely available but I rarely if ever see a use for the Implicit Grant Type now.
 **Example:**
  * If you're building a classic web application: Use the Authorization Code Grant.
- * If you're building a single page application: Use the Authorization Code Grant without secrets.
+ * If you're building a single page application: Use the Authorization Code Grant **without secrets**.
    * Read more about developing OAuth2 Flow for Single Page Apps, [here](https://www.oauth.com/oauth2-servers/single-page-apps/#:~:text=The%20only%20way%20the%20authorization,using%20a%20registered%20redirect%20URL.).
  * If you are building a native mobile application: Use the Authorization Code Grant with [PKCE](https://medium.com/identity-beyond-borders/what-the-heck-is-pkce-40662e801a76).
- * If your client is 100% internal and is authenticating trusted APIs and not unknown users, therefore, it's absolutely trusted with user credentials (i.e. the Facebook app accessing Facebook Auth): In these rarer cases, Use the Resource Owner Password Grant.
+ * If your client is 100% internal and is authenticating with trusted APIs and not unknown users, then it's probably *absolutely trusted*.  In this can you can use user credentials (i.e. the Facebook app accessing Facebook Auth): In this case, Use the Resource Owner Password Grant.
  * If your client is the sole owner of the data, and there is no user login: Use the Client Credentials Grant.
 
 ## Where should I store my Access/Refresh Tokens..?
