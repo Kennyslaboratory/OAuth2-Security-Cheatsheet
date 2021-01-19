@@ -121,4 +121,33 @@ Design your application so that it can store the Refresh Tokens securely on a se
 
 Access tokens and esspecially refresh tokens should **never** be stored in the local/session storage, because then they can be stolen via Cross-Site Scripting attacks or other attacks that can read local/session storage.  Remember, this area of storage is meant to be public and accessable to the User-Agent. If your client is not being hosted on the same device as the User-Agent then it would be best practice to store the access token in a cookie with [cookie prefixes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie) enabled.  At the bare minimun the cookie should use the HttpOnly, Secure, and SameSite cookie prefixes.
 
+#### When should I use Handle-Based Tokens?
+Handle-Based Tokens are references to tokens  To increase maintainability, use self-contained tokens from within your network on systems you control, but use handle-based tokens outside of the network. The main reason is that Access Tokens are meant to be consumed by the API itself, not by the Client. If we share self-contained tokens with Clients, they might consume these tokens in ways that we had not intended. Changing the content (or structure) of our self-contained tokens might thus break lots of Client applications in unforeseen ways when communicating with APIs.
 
+If the Client application requires access to data that is in the self-contained token, offer an API that enables Client applications to obtain information related to that Access Token. If we want to use self-contained tokens and prevent clients from accessing the contents, encrypt those tokens.
+
+# Securing Client Credentials
+Clients need a `client_id` and a `client_secret` to verify itself with an Identity Provider.  The `client_id` is public but the `client_secret` needs to be secured and stored in a confidential location, like on a server.  It goes both ways however, if the Auth Server itself is compromised, then certain security measures should be implemented to protect the database of valid client credentials.
+
+#### Generate client_secret using strong cryptography - _(client & auth server)_
+If the client secrets are weak, an attacker may be able to guess them at the token endpoint.
+
+To remediate this, generate secrets with a length of at least 128 bit using a secure pseudo-random number generator that is seeded properly. Most mature OAuth 2.0 frameworks implement this correctly so if you are using a popular library from a trusted provider, then you should be okay when using the library/framework to generate the client_secret.
+
+#### Implement rate limiting on the exchange/token server endpoint - _(auth server)_
+To prevent bruteforcing, OAuth2 endpoints should implement rate limiting to slow down attackers.  For example, if someone is trying to bruteforce a state parameter or the client credentials.
+
+
+#### Use a Cryptographic hashing algorithm that is appropriate for storing client_secrets - _(auth server)_
+If the client secrets are stored as plain text, an attacker may be able to obtain them from the database at the resource server or the token endpoint.
+
+To remediate this, store the client secrets like you would store user passwords: hashed with a strong hashing algorithm such as Argon2id, bcrypt, scrypt, or pbkdf2. If you're having trouble deciding which hashing algorithm to use, then check out [this post](https://medium.com/analytics-vidhya/password-hashing-pbkdf2-scrypt-bcrypt-and-argon2-e25aaf41598e) on hashing algorithms. When validating the secret, hash the incoming secret and compare it against the one stored in the database for that client.
+
+#### Store the client_secret securely on the client - _(client)_
+An attacker may be able to extract secrets from client if they have access to it's logic on local storage or through a code repository.
+
+Always store the secrets using secure storage offered by your technology stack (typically encrypted) and keep these secrets out of version repositories.
+
+**Important:** public clients should NOT have secrets.  This includes clients embedded into mobile phone applications and single page applications.  Either don't use a `client_secret` at all in this case or use a service like AWS Lambda to handle OAuth2 Authorization Code-to-Token Exchanges.
+
+# Securing Tokens
