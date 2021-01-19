@@ -81,10 +81,10 @@ When you're directing a
 | [Open Redirect]() | Stealing the Authorization Code by hijacking the redirect_url parameter and redirecting the final GET Response to an attacker's server. |
 | [Weak state parameter]() | The state parameter is perdictable and not cryptographically secure. |
 | [Unchecked state parameter]() | The client does not check or validate the state parameter before submitting the Auth Code for an Access Token. | 
-| [state Fixation]() | The state parameter is meant to be calculated from the user session.   |
+| [state Fixation]() | Very rare but this issue arises in broken OAuth2 libraries from Identity Providers.  If the application allowa a user-provided state to initialize the OAuth flow then the state parameter can be broken and CSRF may still be possible. |
 
 # Planning your Server Architecture:
-##### What Authroization Grant Type Should I Use
+#### What Authroization Grant Type Should I Use
 
 As a general rule of thumb, if you are developing a standard Web Application or Native Mobile Application then you should be using the Authorization Code Grant.  The Implicit Grant was generally how we used to do things before CORS support was widely available but I rarely if ever see a use for the Implicit Grant Type now.
 **Example:**
@@ -95,11 +95,10 @@ As a general rule of thumb, if you are developing a standard Web Application or 
  * If your client is 100% internal and is authenticating with trusted APIs and not unknown users, then it's probably *absolutely trusted*.  In this can you can use user credentials (i.e. the Facebook app accessing Facebook Auth): In this case, Use the Resource Owner Password Grant.
  * If your client is the sole owner of the data, and there is no user login: Use the Client Credentials Grant.
 
-##### Where should I store my Access/Refresh Tokens..?
+#### Where should I store my Access/Refresh Tokens..?
 
 Design your application so that it can store the Refresh Tokens securely on a server. However, if you are developing on completely RESTful application then this may not be an option for you.  If you do not trust that the client can store tokens securely *(single-page web applications, etc)*, then do **not** issue Refresh Tokens. An attacker with access to long-lived Refresh Tokens will be able to obtain new Access Tokens and use those Access tokens to access the resources of other users. The main downside of not using Refresh Tokens is that users/clients would need to re-authenticate every time the Access Token expires.
-
-##### What about Local Storage?
+##### What about Local Storage..?
 
 Access tokens and esspecially refresh tokens should **never** be stored in the local/session storage, because then they can be stolen via Cross-Site Scripting attacks or other attacks that can read local/session storage.  Remember, this area of storage is meant to be public and accessable to the User-Agent. If your client is not being hosted on the same device as the User-Agent then it would be best practice to store the access token in a cookie with [cookie prefixes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie) enabled.  At the bare minimun the cookie should use the HttpOnly, Secure, and SameSite cookie prefixes.
 
