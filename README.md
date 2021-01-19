@@ -151,3 +151,21 @@ Always store the secrets using secure storage offered by your technology stack (
 **Important:** public clients should NOT have secrets.  This includes clients embedded into mobile phone applications and single page applications.  Either don't use a `client_secret` at all in this case or use a service like AWS Lambda to handle OAuth2 Authorization Code-to-Token Exchanges.
 
 # Securing Tokens
+
+### Store handle-based access and refresh tokens securely - _(auth server)_
+If the handle-based tokens are stored as plain text, an attacker may be able to obtain them from the database at the resource server or the token endpoint.
+
+To remediate this, hash the tokens before storing them using a strong hashing algorithm. When validating the token, hash the incoming token and validate whether that hashed value exists in the database.
+
+Hash tokens with a hashing algorithm.  Access Tokens are generally supposed to be shortlived, and a dictionary attack is likely not going be able to crack a hashed token that is of random string length.  Therefore, you can opt for a faster hashing algorithm instead of using the same ones we use to store passwords like Argon2, bscrypt, or scrypt.  SHA256 should be sufficient depending on your risk profile.
+
+
+### Expire access and refresh tokens propmptly - _(auth server)_
+Expiring access and refresh tokens limits the window in which an attacker can use captured or guessed tokens.
+
+To remediate this, expire access tokens 15-30 minutes after they have been generated. Refresh tokens can be valid for much longer. The actual amount depends on the risk profile of the application. Anything between a couple of hours or a year might be acceptable.
+
+### Store handle-based access and refresh tokens securely - _(Client)_
+If the handle-based tokens are stored as plain text in a database, an attacker may be able to obtain them from the database at the client.
+
+To remediate this, keep the access tokens in memory and store the refresh tokens using secure storage offered by the technology stack (typically encrypted).
