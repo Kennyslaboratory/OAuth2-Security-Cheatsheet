@@ -28,7 +28,6 @@ There are *4 types* of ways to use OAuth2, however, most use-cases are "Authoriz
 | Client Credentials Grant | The Client is given master credentials that it can use to obtain Access Tokens. |
 
 #### GET Request Parameters
-When you're directing a 
 | Parameter | Description |
 | --- | --- |
 | response_type | Specifies what type of Authorization Flow is being used. |
