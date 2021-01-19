@@ -168,4 +168,50 @@ To remediate this, expire access tokens 15-30 minutes after they have been gener
 ### Store handle-based access and refresh tokens securely - _(Client)_
 If the handle-based tokens are stored as plain text in a database, an attacker may be able to obtain them from the database at the client.
 
-To remediate this, keep the access tokens in memory and store the refresh tokens using secure storage offered by the technology stack (typically encrypted).
+To remediate this, keep the access tokens in memory and store the refresh tokens using secure storage offered by your technology stack (typically encrypted).
+
+# Securing your Users
+The most common way that OAuth2 can be used by hackers to steal your users' account logins and data is through Authorization Code Theft bia CSRF Attacks and Open Redirects.  Both are fairly easy to prevent but very often the protections are not implemented properly.
+
+### Implement the `state` parameter - _(client)_
+An attacker will be able to associate his/her OAuth 2.0 identity with another user's account registered on your client application if the client does not use the state parameter.  They do this by using a common CSRF Bug in the OAuth2 framework.
+
+The `state` parameter is recommended and it should be used. The client application should generate a secure random string, store the secure random string in the user's session, and send it to the authorization server using the 'state' parameter via the the user's browser. The authorization server will send this parameter back after the authorization request via the user's browser. The client application should then validate whether the value stored in the requesting user's session matches the received value.
+
+You must validate this `state` parameter on the client before exchanging an authorization code for an access token, otherwise simply including a `state` and not checking it will defeat the purpose.
+
+### Expire Authorization Codes - _(auth server)_
+Attackers that steal or brute force unused authorization codes will be able to use them regardless of how long ago they were issued.  This won't prevent CSRF Attacks and is not a subsitute for the `state` parameter.  A professional attack can use AJAX to renew the Authorization Code in on their malicious page periodically.
+
+To mitigate a bruteforce of Authorization Codes, expire authorization codes after 10-15 minutes if they have not been used.
+
+Although this attack is very impractical if you're already throttling Access Token requests and secure your `client_secret` properly. It is still best practice to expire the Authorization Codes in a healthy time window.
+
+### Invalidate authorization codes after use - _(auth sever)_
+Attackers can reuse authorization codes when intercepted. Clients exchange authorization codes together with a client ID and `client_secret` for access tokens. These access tokens then grant the client access to the victim's resources. Attackers can also do this if the client does not use a `client_secret` (e.g. public client) or if the `client_secret` is compromised as an attacker can obtain access tokens with the intercepted authorization code(s).
+
+When an authorization code is exchanged for an access code, the authorization server should invalidate the authorization code and not issue any more access codes against it.
+
+### Generate strong authorization codes - _(auth server)_
+An attacker may be able to guess the authorization code if they have weak entrophy when created.
+
+Generate authorization codes with a length of at least `128 bits` using a cryptographically secure pseudo-random number generator (CSPRNG) that is seeded properly with a True Random Number Generator.  This may seem difficult but just about all technology stacks will have this functionality built-in, read their documentation for guidance on using CSPRNGs.
+
+### Bind client to authorization code - _(auth server)_
+An attacker that obtains authorization codes provided by the application to a particular client will be able to exchange them for access tokens using his/her own client ID and client secret. These access tokens will then grant the attacker access to the victim's resources.
+
+Verify that the client that executes the exchange request is the same as the client that was provided with the authorization code.
+
+### Strictly Validate the redirect URI - _(auth server)_
+Whitelist the EXACT callback uri for the Authorization Code.  Some might think that they can simply register their domain name, however, if there is Cross-Site Scripting anywhere on the domains that are allowed, it can be leveraged into a redirect to an attacker's site.  
+
+In otherwords, if the redirect URI is not validated properly, an attacker may be able to perform an open redirect or steal authorization codes. Attackers can redirect the user to a website they control by initially providing the URL of a website they trust (the authorization server). As the authorization code is a parameter appended to the redirect URI by the server, an attacker may be able to steal the authorization code. This authorization code can be used to get access tokens if the client secret is compromised or not needed.
+
+The authorization server should verify whether the provided redirecturi is one of the redirecturis that the clients provided during the registration process. 
+
+Again, it is extremely important that the match is an **exact string match**, as otherwise attackers may be able to circumvent the URI validation logic or perform other types of technology-specific attacks.
+
+### Hash authorization codes - _(auth server)_
+Attackers may steal authorization codes from the database using an attack such as SQL injection.
+
+Hash the authorization codes when stored in the database on the authorization server to further protect their users.  However, if you have a SQL Injection, you have much bigger problems.
