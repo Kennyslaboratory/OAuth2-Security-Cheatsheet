@@ -1,20 +1,20 @@
 # Table of Contents
 
- * OAuth2 Security Cheat Sheet
-  * Overview
-    * Key Frameworks
-    * Main Components
-    * Auth Flow Types
-    * GET Request Parameters
-    * POST Request Parameters
-    * Token Types
-    * Misc. Token Types
-    * Client Types
-  * Common OAuth2 Vulnerabilities
-  * Planning your Server Architecture
-    * What Authroization Grant Type Should I Use?
-    * Where should I store my Access/Refresh Tokens?
-      * Avoid putting tokens in local/session storage
+ * [OAuth2 Security Cheat Sheet]()
+  * [Overview]()
+    * [Key Frameworks]()
+    * [Main Components]()
+    * [Auth Flow Types]()
+    * [GET Request Parameters]()
+    * [POST Request Parameters]()
+    * [Token Types]()
+    * [Misc. Token Types]()
+    * [Client Types]()
+  * [Common OAuth2 Vulnerabilities]()
+  * [Planning your Server Architecture]()
+    * [What Authroization Grant Type Should I Use?]()
+    * [Where should I store my Access/Refresh Tokens?]()
+      * [Avoid putting tokens in local/session storage]()
   
 
 # Overview
@@ -31,53 +31,53 @@ OAuth2 is used for Authorization, not Authentication/Identity.  However, using a
 There's typically 5 different actors in the OAuth2 flow:
 | Components | Description |
 | --- | --- |
-| Resource Owner | The subject that is attempting to access a protected resource.  You, me, or some API. |
-| User Agent | The local software that the User is interfacing with in order to communicate with the client. This can be a phone app or your web browser. |
-| Client | This is the server application _(Web App)_ that runs the OAuth2 logic.  No data or protected resources are located here. |
-| Auth Server | The server that is used to authenticate the User.  Tokens are exchanged here for access to protected resources. |
-| Resource Server | Server hosting the protected resources. This is the API you want to access. |
+| `Resource Owner` | The subject that is attempting to access a protected resource.  You, me, or some API. |
+| `User Agent` | The local software that the User is interfacing with in order to communicate with the client. This can be a phone app or your web browser. |
+| `Client` | This is the server application _(Web App)_ that runs the OAuth2 logic.  No data or protected resources are located here. |
+| `Auth Server` | The server that is used to authenticate the User.  Tokens are exchanged here for access to protected resources. |
+| `Resource Server` | Server hosting the protected resources. This is the API you want to access. |
 
 ### Auth Flow Types
 There are *4 types* of ways to use OAuth2, however, most use-cases are "Authorization Code Grant":
 | Flow Types | Description |
 | --- | --- |
-| Implicit Grant | No Auth Code, instead the Client obtains the Access Token directly and no Auth Code is created or exchanged. |
-| Authorization Code Grant | **Most Common.** The Client obtains an Authorization Code that the Client can exchange for an Access Token after the User logs in at the Authorization Server. |
-| Resource Owner Password Credentials Grant | Basically the Client enters in your Username and Password and signs into the server on your behalf. |
-| Client Credentials Grant | The Client is given master credentials that it can use to obtain Access Tokens. |
+| [Implicit Grant]() | No Auth Code, instead the Client obtains the Access Token directly and no Auth Code is created or exchanged. |
+| [Authorization Code Grant]() | **Most Common.** The Client obtains an Authorization Code that the Client can exchange for an Access Token after the User logs in at the Authorization Server. |
+| [Resource Owner Password Credentials Grant]() | Basically the Client enters in your Username and Password and signs into the server on your behalf. |
+| [Client Credentials Grant]() | The Client is given master credentials that it can use to obtain Access Tokens. |
 
 #### GET Request Parameters
 | Parameter | Description |
 | --- | --- |
-| response_type | Specifies what type of Authorization Flow is being used. |
-| client_id | This is used by the Auth Server to Identify the client. |
-| redirect_uri | Specifies where to redirect the User-Agent. |
-| scope _(optional)_ | Declare what resources/permission you want from the Identity Provider. |
-| state _(recommended)_ | If not using PKCE to prevent CSRF attack then the state parameter is necessary to protect user accounts fro hijacking via CSRF. |
+| `response_type` | Specifies what type of Authorization Flow is being used. |
+| `client_id` | This is used by the Auth Server to Identify the client. |
+| `redirect_uri` | Specifies where to redirect the User-Agent. |
+| `scope` _(optional)_ | Declare what resources/permission you want from the Identity Provider. |
+| `state` _(recommended)_ | If not using PKCE to prevent CSRF attack then the state parameter is necessary to protect user accounts fro hijacking via CSRF. |
 
 #### POST Request Parameters
 | Parameter | Description |
 | --- | --- |
-| Host | authorization-endpoint.com |
-| grant_type | Specifies the type of Auth Flow you are using.  I.E. `code` |
-| code | This is where the Auth Code is after logging into the Auth Server / Identity Provider. |
+| `Host` | authorization-endpoint.com |
+| `grant_type` | Specifies the type of Auth Flow you are using.  I.E. `code` |
+| `code` | This is where the Auth Code is after logging into the Auth Server / Identity Provider. |
 
 
 ### Token Types
 | Token Types | Description |
 | --- | --- |
-| Bearer Tokens | An unsigned token that is used by OAuth2.  It's located in the Authorization Header of HTTP Requests and is also considered a predominate access token.  |
-| Access Tokens | A short-lived token that grants access to a protected resource.  Normally exchanged with an Authorization Code.  Access Tokens are also encrypted strings that contain user information. |
-| Refresh Tokens | A seperate token that is used to renew an expired Access Token. |
-| Identity Tokens | A Self-Contained, JSON Web Token used by OpenID Connect for account login purposes. |
+| [Bearer Tokens]() | An unsigned token that is used by OAuth2.  It's located in the Authorization Header of HTTP Requests and is also considered a predominate access token.  |
+| [Access Tokens]() | A short-lived token that grants access to a protected resource.  Normally exchanged with an Authorization Code.  Access Tokens are also encrypted strings that contain user information. |
+| [Refresh Tokens]() | A seperate token that is used to renew an expired Access Token. |
+| [Identity Tokens]() | A Self-Contained, JSON Web Token used by OpenID Connect for account login purposes. |
 
 **Tip:** Think of Access Tokens like a session that is created once you authenticate to a website. As long as that session is valid, we can interact with that website without needing to login again. Once the session times out, we would need to login again with our username and password. Refresh tokens are like that password, as they allow a Client to create a new session.
 
 ### Misc. Token Types
 | Token Types | Description |
 | --- | --- |
-| Handle-Based Tokens | *Reference tokens* that are typically random strings used to retrieve the data associated with that token. Similar to passing a reference to a variable in a programming language. |
-| Self-Contained Tokens | *Contain all the data* associated with that token. This is similar to passing a variable by value in a programming language. This is typically expressed as a JWT. |
+| [Handle-Based Tokens]() | *Reference tokens* that are typically random strings used to retrieve the data associated with that token. Similar to passing a reference to a variable in a programming language. |
+| [Self-Contained Tokens]() | *Contain all the data* associated with that token. This is similar to passing a variable by value in a programming language. This is typically expressed as a JWT. |
 
 #### Note: 
   * Refresh tokens are handle-based.
@@ -87,8 +87,8 @@ There are *4 types* of ways to use OAuth2, however, most use-cases are "Authoriz
 ### Client Types
 | Clients | Description |
 | --- | --- |
-| Public Client | A client that is located on the same device as the User-Agent.  This client should not be used to store client secrets because it can't be secured. This category includes mobile applications, single page applications, and desktop clients as an attacker is able to extract the secrets by downloading those applications. |
-| Confidential Client | A Web Application that is located on a server seperate to the User-Agent. |
+| [Public Client]() | A client that is located on the same device as the User-Agent.  This client should not be used to store client secrets because it can't be secured. This category includes mobile applications, single page applications, and desktop clients as an attacker is able to extract the secrets by downloading those applications. |
+| [Confidential Client]() | A Web Application that is located on a server seperate to the User-Agent. |
 
 # Common OAuth2 Vulnerabilities
 | Attack | Description |
