@@ -93,7 +93,7 @@ There are *4 types* of ways to use OAuth2, however, most use-cases are "Authoriz
 # Common OAuth2 Vulnerabilities
 | Attack | Description |
 | --- | --- |
-| [Classic CSRF Attack]() | Using a CSRF Attack to forward a User to the Auth Server, having them obtain an Auth Code, then having them use it to pair your IdP Account with their client account. |
+| [Classic CSRF Attack]() | Using a CSRF Attack to forward a User to the Auth Server, having them obtain an Auth Code, then having them use it to pair the attacker's IdP Account with their client account. |
 | [Pseudo-Auth CSRF Attack](https://security.stackexchange.com/questions/20187/oauth2-cross-site-request-forgery-and-state-parameter) | If OAuth2 is being used as a pseudo-authentication protocol to login, then it is possible to obtain access to a user account by linking your account with their's via CSRF Attack. |
 | [Stealing client_secret]() | If the client_secret is embedded in the same local device as the User-Agent then it may be possible to steal the client_secret used to verify the Client with the Auth Server. |
 | [Open Redirect]() | Stealing the Authorization Code by hijacking the redirect_url parameter and redirecting the final GET Response to an attacker's server. |
