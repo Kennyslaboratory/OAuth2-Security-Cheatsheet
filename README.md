@@ -2,13 +2,14 @@
 OAuth2 is not a program, service, or coding library.  OAuth2 is simply a framework/standard that was created by the Internet Engineering Task Force to give websites *limited* access to their data/services to other third-party websites using a decenteralized Authorization Server.  
 
 ### Key Frameworks
+OAuth2 is used for Authorization, not Authentication/Identity.  However, using an extension call OpenID Connect, we can use OAuth2 for Aurhtnetication.
 | Frameworks | Description |
 | --- | --- |
 | [OAuth2](https://tools.ietf.org/html/rfc6749) | Authorization framework that enables a third-party application to obtain limited, short-term access to an HTTP service. |
 | [OpenID Connect](https://developer.okta.com/blog/2017/07/25/oidc-primer-part-1) | Works ontop of OAuth2, this adds an Identity Layer to the framework.  "Sign In with Google" |
 
 ### Main Components
-There's 
+There's typically 5 different actors in the OAuth2 flow:
 | Components | Description |
 | --- | --- |
 | Resource Owner | The subject that is attempting to access a protected resource.  You, me, or some API. |
@@ -18,6 +19,7 @@ There's
 | Resource Server | Server hosting the protected resources. This is the API you want to access. |
 
 ### Auth Flow Types
+There are *4 types* of ways to use OAuth2, however, most use-cases are "Authorization Code Grant":
 | Flow Types | Description |
 | --- | --- |
 | Implicit Grant | No Auth Code, instead the Client obtains the Access Token directly and no Auth Code is created or exchanged. |
@@ -26,6 +28,7 @@ There's
 | Client Credentials Grant | The Client is given master credentials that it can use to obtain Access Tokens. |
 
 #### GET Request Parameters
+When you're directing a 
 | Parameter | Description |
 | --- | --- |
 | response_type | Specifies what type of Authorization Flow is being used. |
@@ -69,13 +72,16 @@ There's
 | Public Client | A client that is located on the same device as the User-Agent.  This client should not be used to store client secrets because it can't be secured. This category includes mobile applications, single page applications, and desktop clients as an attacker is able to extract the secrets by downloading those applications. |
 | Confidential Client | A Web Application that is located on a server seperate to the User-Agent. |
 
-# Client Vulnerabilities
+# Common OAuth2 Vulnerabilities
 | Attack | Description |
 | --- | --- |
 | [Pseudo-Auth CSRF Attack](https://security.stackexchange.com/questions/20187/oauth2-cross-site-request-forgery-and-state-parameter) | If OAuth2 is being used as a pseudo-authentication protocol to login, then it is possible to obtain access to a user account by linking your account with their's via CSRF Attack. |
 | [Classic CSRF Attack]() | Using a CSRF Attack to forward a User to the Auth Server, having them obtain an Auth Code, then stealing it.  Afterwards, the Hacker exchanges the stolen Auth Code for an Access Token. |
 | [Stealing client_secret]() | If the client_secret is embedded in the same local device as the User-Agent then it may be possible to steal the client_secret used to verify the Client with the Auth Server. |
-| Open Redirect | ... |
+| [Open Redirect]() | Stealing the Authorization Code by hijacking the redirect_url parameter and redirecting the final GET Response to an attacker's server. |
+| [Weak state parameter]() | The state parameter is perdictable and not cryptographically secure. |
+| [Unchecked state parameter]() | The client does not check or validate the state parameter before submitting the Auth Code for an Access Token. | 
+| [state Fixation]() | The state parameter is meant to be calculated from the user session.   |
 
 # Planning your Server Architecture:
 ## What Authroization Grant Type Should I Use..?
