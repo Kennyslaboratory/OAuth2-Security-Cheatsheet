@@ -85,6 +85,7 @@ When you're directing a
 
 # Planning your Server Architecture:
 **What Authroization Grant Type Should I Use**
+
 As a general rule of thumb, if you are developing a standard Web Application or Native Mobile Application then you should be using the Authorization Code Grant.  The Implicit Grant was generally how we used to do things before CORS support was widely available but I rarely if ever see a use for the Implicit Grant Type now.
 **Example:**
  * If you're building a classic web application: Use the Authorization Code Grant.
@@ -95,8 +96,10 @@ As a general rule of thumb, if you are developing a standard Web Application or 
  * If your client is the sole owner of the data, and there is no user login: Use the Client Credentials Grant.
 
 **Where should I store my Access/Refresh Tokens..?**
+
 Design your application so that it can store the Refresh Tokens securely on a server. However, if you are developing on completely RESTful application then this may not be an option for you.  If you do not trust that the client can store tokens securely *(single-page web applications, etc)*, then do **not** issue Refresh Tokens. An attacker with access to long-lived Refresh Tokens will be able to obtain new Access Tokens and use those Access tokens to access the resources of other users. The main downside of not using Refresh Tokens is that users/clients would need to re-authenticate every time the Access Token expires.
 
 **What about Local Storage?**
+
 Access tokens and esspecially refresh tokens should **never** be stored in the local/session storage, because then they can be stolen via Cross-Site Scripting attacks or other attacks that can read local/session storage.  Remember, this area of storage is meant to be public and accessable to the User-Agent. If your client is not being hosted on the same device as the User-Agent then it would be best practice to store the access token in a cookie with [cookie prefixes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie) enabled.  At the bare minimun the cookie should use the HttpOnly, Secure, and SameSite cookie prefixes.
 
