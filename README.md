@@ -15,6 +15,26 @@
     * [What Authroization Grant Type Should I Use?]()
     * [Where should I store my Access/Refresh Tokens?]()
       * [Avoid putting tokens in local/session storage]()
+    * [When should I use Handle-Based Tokens?]()
+  * [Securing Client Credentials]()
+    * [Generate client_secret using strong cryptography - _(client & auth server)_]()
+    * [Implement rate limiting on the exchange/token server endpoint - _(auth server)_]()
+    * [Use a Cryptographic hashing algorithm that is appropriate for storing client_secrets - _(auth server)_]()
+    * [Store the client_secret securely on the client - _(client)_]()
+  * [Securing Tokens]()
+    * [Store handle-based access and refresh tokens securely - _(auth server)_]()
+    * [Expire access and refresh tokens propmptly - _(auth server)_]()
+    * [Store handle-based access and refresh tokens securely - _(Client)_]()
+  * [Securing your Users]()
+    * [Implement the `state` parameter - _(client)_]()
+    * [Expire Authorization Codes - _(auth server)_]()
+    * [Invalidate authorization codes after use - _(auth sever)_]()
+    * [Generate strong authorization codes - _(auth server)_]()
+    * [Bind client to authorization code - _(auth server)_]()
+    * [Strictly Validate the redirect URI - _(auth server)_]()
+    * [Hash authorization codes - _(auth server)_]()
+    
+    
   
 
 # Overview
@@ -215,3 +235,8 @@ Again, it is extremely important that the match is an **exact string match**, as
 Attackers may steal authorization codes from the database using an attack such as SQL injection.
 
 Hash the authorization codes when stored in the database on the authorization server to further protect their users.  However, if you have a SQL Injection, you have much bigger problems.
+
+# PKCE
+Proof Key for Code Exchange (PKCE) can be used to prevent CSRF attacks on the Authorization Code Flow but it's real use is to protect public client from Authorization Code Interception.
+
+In the event that you are designing a mobile application, it may be possible for other applications to register the same custom URL scheme as your application.  
