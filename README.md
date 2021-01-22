@@ -240,3 +240,11 @@ Hash the authorization codes when stored in the database on the authorization se
 Proof Key for Code Exchange (PKCE) can be used to prevent CSRF attacks on the Authorization Code Flow but it's real use is to protect public client from Authorization Code Interception.
 
 In the event that you are designing a mobile application, it may be possible for other applications to register the same custom URL scheme as your application.  
+
+## How it Works:
+ * Client creates a code_verifier, code_challenge, and code_challenge_method
+ * Client Hashes the code_verifier using SHA256 and sets the code_challenge as the hash
+ * Client sends code_challenge and code_challenge_method to Authorization Server when it redirects the User to authenticate.
+ * Auth Server holds onto code_challenge and sends an Authorization Code to Client.
+ * Client sends both the Authorization Code and the code_verifier together to the Authorization Server.
+ * Authorization server uses SHA256 to hash the code_verifier and compares the hash with the code_challenge.
