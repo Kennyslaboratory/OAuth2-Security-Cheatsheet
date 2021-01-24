@@ -33,10 +33,10 @@
     * [Bind client to authorization code - _(auth server)_]()
     * [Strictly Validate the redirect URI - _(auth server)_]()
     * [Hash authorization codes - _(auth server)_]()
+  * [PKCE]()
+    * [How PKCE Works]()
     
     
-  
-
 # Overview
 OAuth2 is not a program, service, or coding library.  OAuth2 is simply a framework/standard that was created by the Internet Engineering Task Force to give websites *limited* access to their data/services to other third-party websites using a decenteralized Authorization Server.  
 
@@ -239,9 +239,9 @@ Hash the authorization codes when stored in the database on the authorization se
 # PKCE
 Proof Key for Code Exchange (PKCE) can be used to prevent CSRF attacks on the Authorization Code Flow but it's real use is to protect public client from Authorization Code Interception.
 
-In the event that you are designing a mobile application, it may be possible for other applications to register the same custom URL scheme as your application.  
+In the event that you are designing a mobile application, it may be possible for other applications to register the same custom URL scheme as your application. This can cause problems when your application is communicating back-and-forth with other servers.  It's possible to steal authorization codes this way if a malicious application is present on the mobile device.
 
-## How it Works:
+## How PKCE Works:
  * Client creates a code_verifier, code_challenge, and code_challenge_method
  * Client Hashes the code_verifier using SHA256 and sets the code_challenge as the hash
  * Client sends code_challenge and code_challenge_method to Authorization Server when it redirects the User to authenticate.
