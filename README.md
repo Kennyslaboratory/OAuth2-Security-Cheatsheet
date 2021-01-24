@@ -120,7 +120,7 @@ There are *4 types* of ways to use OAuth2, however, most use-cases are "Authoriz
 | [Reusable Authorization Codes]() | Authorization Codes should only be able to be used once.  Once used, they should be invalidated. |
 | [Weak state parameter]() | The state parameter has weak entropy if is perdictable and not cryptographically secure, for example, [computing the state parameter with NTP](https://crypto.stackexchange.com/questions/18207/is-it-safe-to-seed-a-random-number-generator-from-system-time). |
 | [Unchecked state parameter]() | The client does not check or validate the state parameter before submitting the Auth Code for an Access Token. | 
-| [state Fixation]() | Very rare but this issue arises in broken OAuth2 libraries from Identity Providers.  If the application allowa a user-provided state to initialize the OAuth flow then the state parameter can be broken and CSRF may still be possible. |
+| [state Fixation]() | Very rare but this issue arises in broken OAuth2 libraries from Identity Providers.  If the application allows a user-provided state to initialize the OAuth flow then the state parameter can be broken and CSRF may still be possible. |
 
 # Planning your Server Architecture:
 #### What Authroization Grant Type Should I Use?
@@ -136,7 +136,7 @@ As a general rule of thumb, if you are developing a standard Web Application or 
 
 #### Where should I store my Access/Refresh Tokens?
 
-Design your application so that it can store the Refresh Tokens securely on a server. However, if you are developing on completely RESTful application then this may not be an option for you.  If you do not trust that the client can store tokens securely *(single-page web applications, etc)*, then do **not** issue Refresh Tokens. An attacker with access to long-lived Refresh Tokens and a client_secret will be able to obtain new Access Tokens and use those Access tokens to access the resources of other users. The main downside of not using Refresh Tokens is that users/clients would need to re-authenticate every time the Access Token expires.
+Design your application so that it can store the Refresh Tokens securely on a server. However, if you are developing a completely RESTful application then this may not be an option for you.  If you do not trust that the client can store tokens securely *(single-page web applications, etc)*, then do **not** issue Refresh Tokens. An attacker with access to long-lived Refresh Tokens and a client_secret will be able to obtain new Access Tokens and use those Access tokens to access the resources of other users. The main downside of not using Refresh Tokens is that users/clients would need to re-authenticate every time the Access Token expires.
 ##### Avoid putting tokens in local/session storage:
 
 Access tokens and esspecially refresh tokens should **never** be stored in the local/session storage, because then they can be stolen via Cross-Site Scripting attacks or other attacks that can read local/session storage.  Remember, this area of storage is meant to be public and accessable to the User-Agent. If your client is not being hosted on the same device as the User-Agent then it would be best practice to store the access token in a cookie with [cookie prefixes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie) enabled.  At the bare minimun the cookie should use the HttpOnly, Secure, and SameSite cookie prefixes.
