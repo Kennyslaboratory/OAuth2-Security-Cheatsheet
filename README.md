@@ -24,7 +24,7 @@
   * [Securing Tokens](#securing-tokens)
     * [Store handle-based access and refresh tokens securely - _(auth server)_](#store-handle-based-access-and-refresh-tokens-securely---auth-server)
     * [Expire access and refresh tokens propmptly - _(auth server)_](#expire-access-and-refresh-tokens-propmptly---auth-server)
-    * [Store handle-based access and refresh tokens securely - _(Client)_]()
+    * [Store handle-based access and refresh tokens securely - _(Client)_](#implement-rate-limiting-on-the-exchangetoken-server-endpoint---auth-server)
   * [Securing your Users]()
     * [Implement the `state` parameter - _(client)_]()
     * [Expire Authorization Codes - _(auth server)_]()
