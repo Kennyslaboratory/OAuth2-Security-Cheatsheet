@@ -1,6 +1,6 @@
 # Table of Contents
 
- * [OAuth2 Security Cheat Sheet](#Table of Contents)
+ * [OAuth2 Security Cheat Sheet](#Table-of-Contents)
   * [Overview](#Overview)
     * [Key Frameworks](#Key-Frameworks)
     * [Main Components](#Main-Components)
