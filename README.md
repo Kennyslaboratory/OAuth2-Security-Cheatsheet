@@ -17,7 +17,7 @@
       * [Avoid putting tokens in local/session storage](#Avoid-putting-tokens-in-local/session-storage)
     * [When should I use Handle-Based Tokens?](#When-should-I-use-Handle-Based-Tokens?)
   * [Securing Client Credentials](#Securing-Client-Credentials)
-    * [Generate client_secret using strong cryptography - _(client & auth server)_]()
+    * [Generate client_secret using strong cryptography - _(client & auth server)_](#generate-client_secret-using-strong-cryptography---client--auth-server)
     * [Implement rate limiting on the exchange/token server endpoint - _(auth server)_]()
     * [Use a Cryptographic hashing algorithm that is appropriate for storing client_secrets - _(auth server)_]()
     * [Store the client_secret securely on the client - _(client)_](#store-handle-based-access-and-refresh-tokens-securely---client)
