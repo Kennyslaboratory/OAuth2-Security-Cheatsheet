@@ -57,8 +57,10 @@ There's typically 5 different actors in the OAuth2 flow:
 | `Auth Server` | The server that is used to authenticate the User.  Tokens are exchanged here for access to protected resources. |
 | `Resource Server` | Server hosting the protected resources. This is the API you want to access. |
 
+![](oauth-auth-code-flow.png)
+
 ### Auth Flow Types
-There are *4 types* of ways to use OAuth2, however, most use-cases are "Authorization Code Grant":
+There are *4 types* of ways to use OAuth2, however, nearly 100% of cases the application is going to us the "Authorization Code Grant" for OpenID Connect:
 | Flow Types | Description |
 | --- | --- |
 | [Implicit Grant]() | No Auth Code, instead the Client obtains the Access Token directly and no Auth Code is created or exchanged. |
