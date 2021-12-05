@@ -51,7 +51,7 @@ OAuth2 is used for Authorization, not Authentication/Identity.  However, using a
 There's typically 5 different actors in the OAuth2 flow:
 | Components | Description |
 | --- | --- |
-| `Resource Owner` | The subject that is attempting to access a protected resource.  You, me, or some API. |
+| `User` | The subject that is attempting to access a protected resource.  You, me, or some API. |
 | `User Agent` | The local software that the User is interfacing with in order to communicate with the client. This can be a phone app or your web browser. |
 | `Client` | This is the server application _(Web App)_ that runs the OAuth2 logic.  No data or protected resources are located here. |
 | `Auth Server` | The server that is used to authenticate the User.  Tokens are exchanged here for access to protected resources. |
