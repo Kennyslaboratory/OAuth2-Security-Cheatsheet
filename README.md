@@ -41,7 +41,7 @@
 OAuth2 is not a program, service, or coding library.  OAuth2 is simply a framework/standard that was created by the Internet Engineering Task Force to give websites *limited* access to their data/services to other third-party websites using a decenteralized Authorization Server.  
 
 ### Key Frameworks
-OAuth2 is used for Authorization, not Authentication/Identity.  However, using an extension call OpenID Connect, we can use OAuth2 for Aurhtnetication.
+OAuth2 is used for Authorization, not Authentication/Identity.  However, using an extension call OpenID Connect, we can use OAuth2 for Authentication.
 | Frameworks | Description |
 | --- | --- |
 | [OAuth2](https://tools.ietf.org/html/rfc6749) | Authorization framework that enables a third-party application to obtain limited, short-term access to an HTTP service. |
